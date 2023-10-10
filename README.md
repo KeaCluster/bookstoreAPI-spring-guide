@@ -1,29 +1,48 @@
-# spring-bookstoreAPI-guide
+# Springboot Bookstore API guide
 
-Small REST-API guide with Springboot for when in need of one. This guide will go through some aspects of requirements, designing the system and development, up to final adjustments and preparing it for deployment.
+## Intro
 
-Take in mind this is a starter guide. If you want or are in search for a more advanced and robust guide on to how to develop a functional, secure and production-ready REST-API, this is not the place. With that in mind, I hope you find the following document of help.
+A beginner's guide to building a small REST-API using Spring Boot. This guide covers various aspects of software development including requirements gathering, system design, development, and deployment preparations. 
+
+> There isn't that much info to go through. We won't look at any front-end aspects of development as this is not the purpose. However we will dive into some basic theory about `MVC` and `REST-API` services.
+
+Keep in mind this is a beginner-friendly guide. If you want/are in search for an advanced and robust guide on to how to develop a functional, secure and production-ready REST-API, this is not the place. With that said and clear, I hope you find the following document of help. Good luck on your development journey and remember to [keep things simple](https://www.freecodecamp.org/news/keep-it-simple-stupid-how-to-use-the-kiss-principle-in-design/)
+
+
+### Stack
+
+- Java (17+) 
+- Springboot (initializr for simplicity) 
+- MySQL (Relational Database)
+- MVC theory and application
 
 ## Contents
 
 1. [Requirements](./Part1.md)
-    - Fundamental requirements for the system: Functionality, planning and overall description
+    - Understanding and documenting the functionality, planning, and overall description of the system.
 2. [Database](./Part2.md)
-    - Design
-    - Normailzation
-    - ER Diagram
-    - SQL Scripts
+    - Designing the database, normalization, creating an ER diagram, and writing SQL scripts.
 3. [API Setup](./Part3.md)
-    - Basic setup and preparation
-    - Java environment, plugins, framework, etc...
+    - Setting up your Java environment, choosing the right plugins, frameworks, etc.
 4. [API Development](./Part4.md)
-    - Model
-    - Repository
-    - Service
-    - Controller
+    - Developing Models, Repositories, Services, and Controllers.
 5. [Adjustments](./Part5.md)
-    - Error handling and adjustments
+    - Implementing error handling and making necessary adjustments.
 6. [Validations](./Part6.md)
-    - Data validation and some security basics
+    - Validating data and introducing basic security measures.
 7. [Deployment](./Part7.md)
-    - Basic deployment recommendations and info
+    - Recommendations and information on basic deployment procedures.
+
+## Detes
+
+For any queries/feedback or contact, feel free to reach out via [Github](https://github.com/KeaCluster)
+
+- Feel free to open a PR for any corrections/sugestions
+
+
+## License
+
+This guide is shared under the [MIT License](LICENSE.md)
+
+
+GLHF;
