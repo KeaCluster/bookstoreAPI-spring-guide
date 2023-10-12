@@ -35,7 +35,7 @@ Keep in mind this is a beginner-friendly guide. If you want/are in search for an
 
 ## Detes
 
-For any queries/feedback or contact, feel free to reach out via [Github](https://github.com/KeaCluster)
+For any queries/feedback or contact, you can reach out via [Github](https://github.com/KeaCluster)
 
 - Feel free to open a PR for any corrections/sugestions
 
