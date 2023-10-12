@@ -18,6 +18,8 @@ Keep in mind this is a beginner-friendly guide. If you want/are in search for an
 
 ## Contents
 
+0. [Intro](./Intro.md)
+    - Basic theory and concepts
 1. [Requirements](./Part1.md)
     - Understanding and documenting the functionality, planning, and overall description of the system.
 2. [Database](./Part2.md)
