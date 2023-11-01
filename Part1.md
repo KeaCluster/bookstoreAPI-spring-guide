@@ -39,4 +39,31 @@ So, to summarize, the relationships these entities have will result in an intere
 
 ## Documenting functionality
 
+Everything we do here could be documented through a third-party tool but for simplicity, we'll just stick to simple comments alongside this guide. We do however recommend you take your own notes along the way.
 
+## Planning
+
+Now that we have an idea of our system's requirements, we can talk about the different stages we'll need to go through.
+
+### Stages
+
+We'll have to go through several stages in order to completely release this project onto the public (or small side-project). However please not that **the resulting project is not production ready** and will have to go through several **security** phases and sections to make sure it can be implemented *IRL*.
+
+1. Designing and Setting up our Database (MySQL)
+2. Setting up our Dev Env with Java and Spring Boot. We'll use the *Spring Initializr* to automate this process. Choosing the right plugins, frameworks etc...
+3. Development using the *MVC* software design pattern.
+4. Some error handling and final adjustments.
+5. Validations.
+6. Deployment.
+
+## Overall Description
+
+So, lets sum things up for a bit...
+
+In this initial segment of our guide, we embarked on a journey to lay the foundational understanding and planning required for our bookshop system focusing on the book renting service. 
+
+We highlighted the essential entities, namely: `Users, Books, Authors`, and `Genres`, and elucidated the relational dynamics among them, emphasizing the Many-to-Many and Many-to-One relationships. This understanding is pivotal as it sets the stage for an intriguing Entity-Relationship diagram and the creation of pivot tables to normalize the relationships, facilitating a robust database structure.
+
+Subsequently, we touched upon the importance of documenting functionality, advocating for simplicity in this endeavor by utilizing comments within this guide, whilst also encouraging personal note-taking for a better grasp of the process.
+
+By encapsulating these crucial aspects, this part of the guide aims to equip you with a clear understanding and a well-laid plan, ensuring a smooth transition into the subsequent sections where we will delve deeper into the implementation details of our bookshop system.
