@@ -5,6 +5,20 @@ This section will focus solely on the design, requirements, attributes, relation
 # Table of Contents
 
 1. [Design](#design)
-2. [ER Diagram](#er-diagram)
-3. [Normalization](#normalization)
+2. [Normalization](#normalization)
+3. [ER Diagram](#er-diagram)
 4. [SQL Scripts](#sql-scripts)
+
+## Design
+
+### Entities
+
+
+
+### Relationships
+
+## Normalization
+
+## ER Diagram
+
+## SQL Scripts
