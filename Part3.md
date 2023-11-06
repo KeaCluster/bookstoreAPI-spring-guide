@@ -8,6 +8,8 @@ This section is fairly straightforward. We'll take a look at some recommendation
 2. [Initializr](#initializr)
     - [Framework](#framework)
     - [Dependencies](#dependencies)
+3. [How to](#how-to)
+4. [Notes](#notes)
 
 ## Java Environment
 
@@ -43,6 +45,11 @@ We'll need three main dependencies:
 
 1. Click on **Generate** at the bottom. It will download a `.zip` file.
 2. Extract it into your *java workspace* and **import** it as a `Gradle` project.
-3. It should start the configuration and build right away.
+    - Please do check your directory imported is the root directory and not a nested one.
+3. It should start the configuration and build right away depending on your IDE. 
 4. If any errors occur, double check directory structure and retry from step *2*.
+
+## Notes
+
+Take some time to familiarize yourself with the project and its structure **before** moving on to the next section. Check the files, do some research about them and really get to know why everything is there.
 
