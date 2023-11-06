@@ -4,12 +4,14 @@ This section is fairly straightforward. We'll take a look at some recommendation
 
 # Table of Contents
 
-1. [Java Environment](#java-environment)
-2. [Initializr](#initializr)
+- [Part 3 - Setting up](#part-3---setting-up)
+- [Table of Contents](#table-of-contents)
+  - [Java Environment](#java-environment)
+  - [Initializr](#initializr)
     - [Framework](#framework)
     - [Dependencies](#dependencies)
-3. [How to](#how-to)
-4. [Notes](#notes)
+  - [How to](#how-to)
+  - [Notes](#notes)
 
 ## Java Environment
 

@@ -35,15 +35,15 @@ To complete this guide we recommend the following:
 3. [API Setup](./Part3.md)
     - Setting up your Java environment, choosing the right plugins, frameworks, etc.
 4. [API Development](./Part4.md)
-    - Developing Models, Repositories, Services, and Controllers.
-5. [Adjustments](./Part5.md)
-    - Implementing error handling and making necessary adjustments.
+    - Developing Models and Repositories
+5. [API Services and Controllers](./Part5.md)
+    - Implementing Services and Controllers
 6. [Validations](./Part6.md)
-    - Validating data and introducing basic security measures.
+    - Validating data and introducing basic error handlers and security.
 7. [Deployment](./Part7.md)
     - Recommendations and information on basic deployment procedures.
 
-## Detes
+## Details
 
 For any queries/feedback or contact, you can reach out via [Github](https://github.com/KeaCluster)
 
