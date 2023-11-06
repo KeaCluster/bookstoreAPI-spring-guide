@@ -26,7 +26,7 @@ To complete this guide we recommend the following:
 
 ## Contents
 
-- [Intro](./Intro.md)
+[Intro](./Intro.md)
     - Basic theory and concepts
 1. [Requirements](./Part1.md)
     - Understanding and documenting the functionality, planning, and overall description of the system.
