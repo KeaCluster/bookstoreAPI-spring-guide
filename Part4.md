@@ -8,9 +8,13 @@ Take this as what we are really doing here: A **guide**. So practice, research, 
   - [Book](#book)
   - [BookAuthor](#bookauthor)
   - [Author](#author)
-- [Controllers](#controllers)
 - [Repositories](#repositories)
+  - [BookRepository](#bookrepository)
 - [Services](#services)
+  - [BookService](#bookservice)
+- [Controllers](#controllers)
+  - [BookController](#bookcontroller)
+- [Notes](#notes)
 
 
 ## Models
@@ -170,8 +174,185 @@ public class Author {
 - This class includes a `Set<BookAuthor>` to represent the collection of `BookAuthor` entities associated with the `Author`. This basically allows us to show every single `Book` a specific `Author` has "written".
 - The `@JoinColumn` annotation is used to specify the **foreign key** column in the `BookAuthor` entity.
 
-## Controllers
-
 ## Repositories
 
+The next step is to setup our `BookRepository` so the model can work with `JPA's` methods. Fortunately that's a quick solution and usually these files don't usually have a lot of lines of code.
+
+Create a new `interface` called `BookRepository` inside a *package* dedicated solely for repositories.
+
+No we'll have our `interface` `extend` `JPA's` methods and make them available for us.
+
+### BookRepository
+
+```java
+// imports
+
+// This annotation is a marker to indicate that the interface is a repository and a component of the Spring context.
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
+    // No need to define findById(Long id) as it's already provided.
+
+    // Example custom query method
+    Optional<Book> findBookByIsbn(String isbn);
+
+    // Additional custom methods as required for your application.
+}
+```
+
+- Repository Interface: By extending JpaRepository, BookRepository not only inherits methods for basic CRUD operations but also paging and sorting capabilities. The generic parameters `<Book, Long>` indicate that the repository is for the entity Book and the type of its primary key is Long.
+
+You'll need to make a Repository for all entities that will have any CRUD operations executed *through* them.
+
 ## Services
+
+Services pretty much handle the logic aspect of implementing both `JPA's` methods and functions alongside how we're going to apply them to the model in question. We setup all necessary CRUD operations to be executed later whenever the controller identfies one from a request.
+
+As with the previous models and repositories, it's almost always about identifying the annotations and relationships.
+
+### BookService
+
+```java
+// Service imports
+
+@Service
+public class BookService {
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    // GET
+    public Optional<Book> findBookById(Long id) {
+        return bookRepository.findById(id);
+    }
+
+    // POST
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
+
+    // DELETE
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    // PUT
+    public Optional<Book> updateBook(Long id, Book bookDetails) {
+        return bookRepository.findById(id).map(existingBook -> {
+            existingBook.setName(bookDetails.getName());
+            existingBook.setReleaseDate(bookDetails.getReleaseDate());
+            existingBook.setEditorial(bookDetails.getEditorial());
+            existingBook.setEdition(bookDetails.getEdition());
+            existingBook.setGenre(bookDetails.getGenre());
+            // Save only if there are changes
+
+            return bookRepository.save(existingBook);
+        });
+    }
+
+    // Aditional GET
+    public List<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    // Additional methods for other repository operations can be added here
+}
+
+```
+
+- `findBookById(Long id)`: Retrieves a book by its ID using the findById method from the repository.
+- `saveBook(Book book)`: Saves a new book or updates an existing book in the repository.
+- `deleteBook(Long id)`: Deletes a book by its ID using the deleteById method from the repository.
+- `updateBook(Long id, Book bookDetails)`: Updates an existing book by its ID with the provided book details. It uses findById to get the current book data, maps the current book to update its fields, and then saves the updated book back to the repository.
+- `findAllBooks()`: Retrieves a list of all books using the findAll method from the repository.
+
+It's also a good practice to implement error and exception handling to methods in case they ever need it or should find some exceptions.
+
+Note that `updateBook()` is configured to update *all* attributes of a `Book` model. So make the necessary adjustments `(conditionals)` in case you'll only update some.
+
+## Controllers
+
+Controllers define which *service* methods will be executed and called whenever an endpoint is being requested by a client. This can either be very simple `GET` requests or complext transactional `POST/PUT` requests, depending on the complexity and size of the application.
+
+### BookController
+
+```java
+// imports
+
+@RestController
+@RequestMapping("/api/books")
+public class BookController {
+
+    private final BookService bookService;
+
+    @Autowired
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    // GET /api/books/{id} - Get a book by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+        return bookService.findBookById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // GET /api/books - Get all books
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.findAllBooks();
+    }
+
+    // POST /api/books - Create a new book
+    @PostMapping
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        Book createdBook = bookService.saveBook(book);
+        return ResponseEntity.ok(createdBook);
+    }
+
+    // PUT /api/books/{id} - Update a book by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book bookDetails) {
+        return bookService.updateBook(id, bookDetails)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // DELETE /api/books/{id} - Delete a book by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.ok().build();
+    }
+
+    // Additional endpoints related to the relationships (if needed):
+    // For example, to get all books of a certain genre or books from a certain author
+
+    // GET /api/books/genre/{genreId} - Get books by genre
+
+    // You'll need to write the findBooksByGenreId method inside BookService
+    @GetMapping("/genre/{genreId}")
+    public ResponseEntity<List<Book>> getBooksByGenre(@PathVariable Long genreId) {
+        List<Book> books = bookService.findBooksByGenreId(genreId);
+        return books.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(books);
+    }
+    // Add any extra methods you might require
+
+}
+```
+
+- `@RequestMapping("/api/books")` annotation is a specification that this controller will handle requests made to the prefix `/api/books`
+- CRUD operations are mapped through their respective HTTP syntax:
+  - `getAllBooks`
+  - `createBook`
+  - `updateBook`
+  - `deleteBook`
+- additional endpoints for `getBooksByGenre` are mere examples.
+
+## Notes
+
+This API handles multiple entities and will play out differently regarding the requirements and specifications. Due to limitations and practical constraints, we won't go further into writing every single `Service` and `Controller`. Instead, check what we've done so far and create them on your own. You're encouraged to build upon this groundwork, crafting the additional components needed to meet your unique requirements.
+Remember to check documentation and multiple online resources.
+Don't take this as the absolute truth. 
+
+Keep in mind that the strategies discussed here are starting points rather than definitive solutions. The development landscape is dynamic, and best practices evolve. Stay adaptable, be open to new ideas, and don't shy away from reevaluating and improving your codebase as you gain more insights and experience.
