@@ -12,6 +12,7 @@ This section will focus solely on the design, requirements, attributes, relation
 
 ## Design
 
+
 The database design for our library system revolves around six key entities: `Genre`, `Book`, `Author`, `User` and two pivot tables: `User_has_Book` and `Book_has_Author`. These entities encapsulate all necessary details and relationships required to model our system accurately. All of these relationships are structured to ensure data integrity and to facilitate easy querying and data manipulation.
 
 According to our system's requirements, the design will be as follows:
@@ -76,3 +77,4 @@ There are three main steps to Normalization:
 ## SQL Scripts
 
 You can write (or generate) the SQL script through any tool you prefer. Stick to the previously mentioned relationships and attributes for better results. If you're using this as a resource, more than a guide, then just remember to double check your requirements.
+
