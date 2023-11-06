@@ -35,7 +35,7 @@ According to our system's requirements, the design will be as follows:
     - Attributes: first_name, last_name
 4. User:
     - PK: user_id
-    - Attributes: username, password, email, phone, photo_url
+    - Attributes: username, password, email
 5. Order:
     - PK: order_id
     - FK: user_id
@@ -62,4 +62,17 @@ En ER-Diagram will help us visualize the relationship between entities in our da
 
 ## Normalization
 
+Normalization is performed to minimize redundancy and dependency in order to ensure a good structure and organization or the data. 
+
+There are three main steps to Normalization:
+
+- First Normal Form (1NF)
+    - Each table should have a primary key and atomic columns.
+- Second Normal Form (2NF)
+    - There aren't any composite primary keys nor partial dependencies.
+- Third Normal Form (3NF)
+    - All columns in a table are only dependent on the primary key.
+
 ## SQL Scripts
+
+You can write (or generate) the SQL script through any tool you prefer. Stick to the previously mentioned relationships and attributes for better results. If you're using this as a resource, more than a guide, then just remember to double check your requirements.
