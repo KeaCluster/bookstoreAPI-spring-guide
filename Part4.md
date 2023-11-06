@@ -7,6 +7,7 @@ Take this as what we are really doing here: A **guide**. So practice, research, 
 - [Models](#models)
   - [Book](#book)
   - [Author](#author)
+  - [Genre](#genre)
 - [Repositories](#repositories)
   - [BookRepository](#bookrepository)
 
@@ -147,6 +148,56 @@ public class Author {
 }
 
 ```
+
+### Genre
+
+```java
+
+@Entity
+@Table(name = "Genre")
+public class Genre {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "genre_id")
+    private Long id;
+
+    @Column(name = "name", nullable = false, length = 45)
+    private String name;
+
+    @Column(name = "description", nullable = false, length = 200)
+    private String description;
+
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Book> books = new HashSet<>();
+
+    // Default constructor
+    public Genre() {}
+
+    // Constructor with parameters
+    public Genre(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    // Methods to add and remove books if necessary
+    public void addBook(Book book) {
+        books.add(book);
+        book.setGenre(this);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+        book.setGenre(null);
+    }
+
+    // No need for getters and setters, as per instruction
+
+    // Other methods...
+}
+
+```
+
 
 ## Repositories
 
