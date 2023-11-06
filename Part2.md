@@ -20,6 +20,7 @@ According to our system's requirements, the design will be as follows:
 - `Books` can have multiple `Authors`, and `Authors` can write multiple `Books`. This is represented by the pivot table `Book_has_Author`.
 - `User` can rent multiple `Books`, and `Books` can be rented by multiple `User`. This relationship will be simplified by implementing an extra entity called `Order`. 
     - `Order` itself is a simple entity containing only a relationship to a *pivot table*.
+
 ### Entities and Relationships:
 
 1. Genre:
@@ -39,9 +40,24 @@ According to our system's requirements, the design will be as follows:
     - PK: order_id
     - FK: user_id
 
+### Pivot tables
+
+In addition to the previous tables, we'll need to implement a couple of pivot tables in order to manage *M:N* relationshps:
+
+1. `Order_has_Book` 
+    - to connect `Order` and `Book`
+    Attributes: quantity
+    FK: Order_order_id and Book_book_id
+
+2. `Book_has_Author`
+    - To connect `Author` and `Book`
+    - FK: Book_book_id and Author_author_id
+
 ## ER Diagram
 
 En ER-Diagram will help us visualize the relationship between entities in our database. In our library system the ER-Diagram will look something similar to the following:
+
+![bookstoreER](./img/bookstoreER.png)
 
 
 ## Normalization
