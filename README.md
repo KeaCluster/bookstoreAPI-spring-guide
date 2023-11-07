@@ -38,8 +38,8 @@ To complete this guide we recommend the following:
     - Developing Models and Repositories
 5. [API Services and Controllers](./Part5.md)
     - Implementing Services and Controllers
-6. [Validations](./Part6.md)
-    - Validating data and introducing basic error handlers and security.
+6. [Tests](./Part6.md)
+    - Tests and petitions
 7. [Deployment](./Part7.md)
     - Recommendations and information on basic deployment procedures.
 

@@ -440,3 +440,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 - Repository Interface: By extending JpaRepository, BookRepository not only inherits methods for basic CRUD operations but also paging and sorting capabilities. The generic parameters `<Book, Long>` indicate that the repository is for the entity Book and the type of its primary key is Long.
 
 You'll need to make a Repository for all entities that will have any CRUD operations executed *through* them.
+- We'll only write CRUD operations for `User`, `Author` and `Book` since this is a demo.
+- If you want to add `Orders` and/or `Genres` then you might want to add one for those too. 
