@@ -420,9 +420,6 @@ Create a new `interface` called `BookRepository` inside a *package* dedicated so
 
 No we'll have our `interface` `extend` `JPA's` methods and make them available for us.
 
-
-
-
 ### BookRepository
 
 ```java
