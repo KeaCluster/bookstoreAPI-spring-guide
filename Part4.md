@@ -8,6 +8,9 @@ Take this as what we are really doing here: A **guide**. So practice, research, 
   - [Book](#book)
   - [Author](#author)
   - [Genre](#genre)
+  - [User](#user)
+  - [Order](#order)
+  - [OrderHasBook](#orderhasbook)
 - [Repositories](#repositories)
   - [BookRepository](#bookrepository)
 
@@ -57,8 +60,8 @@ public class Book {
     )
     private Set<Author> authors;
 
-    @OneToMany(mappedBy = "book")
-    private Set<OrderHasBook> orderHasBooks;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderHasBook> orderHasBooks = new HashSet<>();
 
     // Default constructor
     public Book() {}
@@ -81,8 +84,30 @@ public class Book {
         this.edition = edition;
         this.genre = genre;
     }
+
+     // Utility methods to manage bidirectional relationships
+    public void addOrder(Order order, int quantity) {
+        OrderHasBook.OrderBookId orderBookId = new OrderHasBook.OrderBookId(order.getId(), this.getId());
+        OrderHasBook orderHasBook = new OrderHasBook(orderBookId, order, this, quantity);
+        orderHasBooks.add(orderHasBook);
+        order.getOrderHasBooks().add(orderHasBook);
+    }
+
+    public void removeOrder(Order order) {
+        for (Iterator<OrderHasBook> iterator = orderHasBooks.iterator(); iterator.hasNext(); ) {
+            OrderHasBook orderHasBook = iterator.next();
+
+            if (orderHasBook.getBook().equals(this) && orderHasBook.getOrder().equals(order)) {
+                iterator.remove();
+                orderHasBook.getOrder().getOrderHasBooks().remove(orderHasBook);
+                orderHasBook.setOrder(null);
+                orderHasBook.setBook(null);
+            }
+        }
+    }
     // Getters and setters...
 }
+
 ```
 
 Note the following:
@@ -191,12 +216,200 @@ public class Genre {
         book.setGenre(null);
     }
 
-    // No need for getters and setters, as per instruction
+    // Other methods...
+}
+
+```
+
+- The `Genre` entity has a one-to-many relationship with the `Book` entity. This is because one genre can be associated with many books, but each book has only one genre.
+- The`@OneToMany` annotation is used to declare this relationship, with the `mappedBy` attribute pointing to the `genre` field in the `Book` entity.
+- The `addBook` and `removeBook` methods manage the association between `Genre` and `Book`, ensuring the relationship is correctly established or disassociated on both sides when a book is added or removed from a genre.
+- The constructors enable the creation of `Genre` instances either with default values or with specific name and description.
+
+### User
+
+```java
+
+// imports
+@Entity
+@Table(name = "User")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
+
+    @Column(name = "username", nullable = false, length = 45, unique = true)
+    private String username;
+
+    @Column(name = "password", nullable = false, length = 25)
+    private String password;
+
+    @Column(name = "email", nullable = false, length = 45, unique = true)
+    private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
+
+    // Default constructor
+    public User() {}
+
+    // Constructor with parameters
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    // Methods to add and remove orders if necessary
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
+
+    // Getters and setters
+    // Other methods...
+}
+
+```
+
+- There's a `one-to-many` relationship between `User` and `Order`, indicating that a user can have multiple orders.
+- The `@OneToMany` relationship is managed with the `mappedBy` attribute, which points to the user field in the `Order` entity.
+
+
+### Order
+
+```java
+// imports
+
+@Entity
+@Table(name = "Order")
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "User_user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderHasBook> orderHasBooks = new HashSet<>();
+
+    // Default constructor
+    public Order() {}
+
+    // Constructor with user parameter
+    public Order(Long id, User user, Set<OrderHasBook> orderHasBooks) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.orderHasBooks = orderHasBooks;
+	}
+
+    // Method to add a book to the order
+    public void addBook(Book book, int quantity) {
+        OrderHasBook.OrderBookId orderBookId = new OrderHasBook.OrderBookId(this.getId(), book.getId());
+        OrderHasBook orderHasBook = new OrderHasBook(orderBookId, this, book, quantity);
+        this.orderHasBooks.add(orderHasBook);
+        book.getOrderHasBooks().add(orderHasBook);
+    }
+
+    // Method to remove a book from the order
+    public void removeBook(Book book) {
+        OrderHasBook.OrderBookId orderBookId = new OrderHasBook.OrderBookId(this.getId(), book.getId());
+        OrderHasBook orderHasBook = new OrderHasBook(orderBookId, this, book, 0); // Quantity is not relevant for removal
+        book.getOrderHasBooks().remove(orderHasBook);
+        this.orderHasBooks.remove(orderHasBook);
+        // Explicitly setting the relationships to null is handled by orphanRemoval = true in the @OneToMany annotation
+    }
+
+
+    // Getters and setters
+}
+
+```
+
+- Each `Order` is related to a `User`, established by a many-to-one relationship `(@ManyToOne)`.
+- The `Order` entity also has a one-to-many relationship with `OrderHasBook`, which is a join table containing the many-to-many relationship between `Order` and Book `entities` with an additional quantity field.
+- A **constructor** that accepts a `User` is also provided, which is useful when creating a new `Order` linked to an existing `User`.
+
+### OrderHasBook
+
+This entity will be ajusted to include a composite primary key. This will simplify the implementation of a `@ManyToMany` relationship as well as custom attributes (quantity).
+
+```java
+// imports
+
+@Entity
+@Table(name = "Order_has_Book")
+public class OrderHasBook {
+
+    @EmbeddedId
+    private OrderBookId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("orderId")
+    @JoinColumn(name = "Order_order_id")
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("bookId")
+    @JoinColumn(name = "Book_book_id")
+    private Book book;
+
+    @Column(name = "quantity")
+    private int quantity;
+
+   public OrderHasBook(OrderBookId id, Order order, Book book, int quantity) {
+        this.id = id;
+        this.order = order;
+        this.book = book;
+        this.quantity = quantity;
+    }
+
+    public OrderHasBook() {
+        // Default constructor
+    }
+
+    // Getters and setters
+
+    // Embeddable key class
+    @Embeddable
+    public static class OrderBookId implements Serializable {
+
+        @Column(name = "Order_order_id")
+        private Long orderId;
+
+        @Column(name = "Book_book_id")
+        private Long bookId;
+
+        // Default constructor
+        public OrderBookId() {}
+
+        // Constructor with parameters
+        public OrderBookId(Long orderId, Long bookId) {
+            this.orderId = orderId;
+            this.bookId = bookId;
+        }
+
+        // Getters and setters
+    }
 
     // Other methods...
 }
 
 ```
+
+This adjustment of a composite key will properly adhere to industry standards and best practices by `JPA`.
 
 
 ## Repositories
@@ -206,6 +419,9 @@ The next step is to setup our `BookRepository` so the model can work with `JPA's
 Create a new `interface` called `BookRepository` inside a *package* dedicated solely for repositories.
 
 No we'll have our `interface` `extend` `JPA's` methods and make them available for us.
+
+
+
 
 ### BookRepository
 
