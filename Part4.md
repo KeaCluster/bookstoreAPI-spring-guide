@@ -1,6 +1,10 @@
 # Part 4 - API Development<!-- omit from toc -->
 
-This section will focus on the code-aspect of our API. Take note that due to the considerable size of the project, we won't be able to write every single line of code here. Most of the entities will be left out. But necessary annotations and concepts are *definitely* going to be shown here.
+## Table of Contents
+
+<!-- toc -->
+
+This section will focus on the code-aspect of our API. Take note that due to the considerable size of the project, we won't be able to write every single line of code here. Most of the entities will be left out. But necessary annotations and concepts are _definitely_ going to be shown here.
 
 Take this as what we are really doing here: A **guide**. So practice, research, and put your knowledge and understanding to the test.
 
@@ -14,10 +18,9 @@ Take this as what we are really doing here: A **guide**. So practice, research, 
 - [Repositories](#repositories)
   - [BookRepository](#bookrepository)
 
-
 ## Models
 
-Models are the *OOP* representation of the relational entities inside the database. This includes: foreign keys, attributes and primary keys, alongside some extra things we could come across.
+Models are the _OOP_ representation of the relational entities inside the database. This includes: foreign keys, attributes and primary keys, alongside some extra things we could come across.
 
 So how exactly do we translate all of this to a `java` class? Very simple:
 
@@ -115,8 +118,8 @@ Note the following:
 - The `@Entity` annotation specifies that this class is a **JPA entity.**
 - The `@Table` annotation specifies the name of the table as it is in the database.
 - The `@Id` and `@GeneratedValue` annotations are used to specify the primary key and its generation strategy.
-- The `@Column` annotations are used to specify the *details of each column* as they are in our database.
-- The `@ManyToOne` and `OneToMany` annotations are used to specify the *relationships* between `Book` and other entities like `Genre`, `BookAuthor`, and `OrderDetail`. `BookAuthor` and `OrderDetail` are hypothetical intermediate entities that would represent the many-to-many relationships managed by `Book_has_Author` and `Order_has_Book` tables respectively.
+- The `@Column` annotations are used to specify the _details of each column_ as they are in our database.
+- The `@ManyToOne` and `OneToMany` annotations are used to specify the _relationships_ between `Book` and other entities like `Genre`, `BookAuthor`, and `OrderDetail`. `BookAuthor` and `OrderDetail` are hypothetical intermediate entities that would represent the many-to-many relationships managed by `Book_has_Author` and `Order_has_Book` tables respectively.
 - The `@Temporal` annotation is used with Date fields to specify the SQL date type.
 
 This current model structure assumes the existence of other model classes (`Genre, OrderDetail`) which we'll need to define.
@@ -282,7 +285,6 @@ public class User {
 - There's a `one-to-many` relationship between `User` and `Order`, indicating that a user can have multiple orders.
 - The `@OneToMany` relationship is managed with the `mappedBy` attribute, which points to the user field in the `Order` entity.
 
-
 ### Order
 
 ```java
@@ -411,12 +413,11 @@ public class OrderHasBook {
 
 This adjustment of a composite key will properly adhere to industry standards and best practices by `JPA`.
 
-
 ## Repositories
 
 The next step is to setup our `BookRepository` so the model can work with `JPA's` methods. Fortunately that's a quick solution and usually these files don't usually have a lot of lines of code.
 
-Create a new `interface` called `BookRepository` inside a *package* dedicated solely for repositories.
+Create a new `interface` called `BookRepository` inside a _package_ dedicated solely for repositories.
 
 No we'll have our `interface` `extend` `JPA's` methods and make them available for us.
 
@@ -439,6 +440,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 - Repository Interface: By extending JpaRepository, BookRepository not only inherits methods for basic CRUD operations but also paging and sorting capabilities. The generic parameters `<Book, Long>` indicate that the repository is for the entity Book and the type of its primary key is Long.
 
-You'll need to make a Repository for all entities that will have any CRUD operations executed *through* them.
+You'll need to make a Repository for all entities that will have any CRUD operations executed _through_ them.
+
 - We'll only write CRUD operations for `User`, `Author` and `Book` since this is a demo.
-- If you want to add `Orders` and/or `Genres` then you might want to add one for those too. 
+- If you want to add `Orders` and/or `Genres` then you might want to add one for those too.
+
