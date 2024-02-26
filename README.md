@@ -1,6 +1,6 @@
 # Springboot Bookstore API guide
 
-<!-- toc -->
+<!--toc:start-->
 
 - [Intro](#intro)
   - [Prerequisites](#prerequisites)
@@ -9,7 +9,7 @@
 - [Details](#details)
 - [License](#license)
 
-<!-- tocstop -->
+<!--toc:end-->
 
 ## Intro
 
@@ -49,26 +49,27 @@ To complete this guide we recommend the following:
 
 [Intro](./Intro.md) - Basic theory and concepts
 
-1. [Requirements](./Part1.md)
-   - Understanding and documenting the functionality, planning, and overall description.
-2. [Database](./Part2.md)
-   - Designing the database, normalize, creating an ER diagram, and writing SQL scripts.
-3. [API Setup](./Part3.md)
-   - Setting up your Java environment, choosing the right plugins, frameworks, etc.
-4. [API Development](./Part4.md)
-   - Developing Models and Repositories
-5. [API Services and Controllers](./Part5.md)
-   - Implementing Services and Controllers
-6. [Tests](./Part6.md)
-   - Tests and petitions
-7. [Deployment](./Part7.md)
-   - Recommendations and information on basic deployment procedures.
+- [Requirements](./Part1.md)
+  - Understanding and documenting the functionality, planning, and overall description.
+- [Database](./Part2.md)
+  - Designing the database, normalize, creating an ER diagram, and writing SQL scripts.
+- [API Setup](./Part3.md)
+  - Setting up your Java environment, choosing the right plugins, frameworks, etc.
+- [API Development](./Part4.md)
+  - Developing Models and Repositories
+- [API Services](./Part5.md)
+  - Implementing Services and Controllers
+- [API Controllers](./Part6.md)
+  - Controllers and such
+- [Tests & Deployment](./Part7.md)
+  - Basic Tests
+  - Recommendations and information on basic deployment procedures.
 
 ## Details
 
 For any queries/feedback or contact, you can reach out via [Github](https://github.com/KeaCluster)
 
-- Feel free to open a PR for any corrections/sugestions
+- Feel free to open a PR for any corrections/suggestions
 
 ## License
 

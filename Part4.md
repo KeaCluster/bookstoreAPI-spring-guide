@@ -1,18 +1,16 @@
-# Part 4 - API Development<!-- omit from toc -->
+# Part 4 - API Development
 
-## Table of Contents
-
-<!-- toc -->
+<!--toc:start-->
 
 - [Models](#models)
-  - [Book](#book)
-  - [User](#user)
-  - [Order](#order)
-  - [Order details](#order-details)
+- [Book](#book)
+- [User](#user)
+- [Order](#order)
+- [Order details](#order-details)
 - [Repositories](#repositories)
   - [BookRepository](#bookrepository)
 
-<!-- tocstop -->
+<!--toc:end-->
 
 This section will focus on the code-aspect of our API.
 Take note that due to the considerable size of the project,
@@ -37,13 +35,12 @@ So how exactly do we translate all of this to a `java` class? Very simple:
 
 // imports
 @Entity
-@Table(name = "Book")
+@Table(name = "books")
 public class Book {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idBook")
-  private Long id;
+  @Column(name = "book_id")
+  private int id;
 
   @Column(name = "name", nullable = false, length = 150)
   private String name;
@@ -57,29 +54,12 @@ public class Book {
   @Column(name = "price", nullable = false)
   private double price;
 
-  @OneToMany(mappedBy = "Book", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<OrderDetail> orderDetails = new HashSet<>();
+  @OneToMany(mappedBy = "book")
+  private Set<OrderDetails> orderDetail;
 
-  // Default constructor
-  public Book() {}
-
-  // Constructor without ID for new book creation
-  public Book(String name, String author, int stock, double price) {
-    this.name = name;
-    this.author = author;
-    this.stock = stock;
-    this.price = price;
+  public Book () {
+    // default
   }
-
-  // Full constructor including ID
-  public Book(Long id, String name, String author, int stock, double price) {
-    this.id = id;
-    this.name = name;
-    this.author = author;
-    this.stock = stock;
-    this.price = price;
-  }
-
   // Getters and setters...
 
   // Utility method to add order detail to a book
@@ -100,9 +80,9 @@ public class Book {
 Note the following:
 
 - `@Entity` annotation specifies that this class is a **JPA entity.**
-- `@Table` annotation specifies the name of the table as it is in the database.
-- `@Id` and `@GeneratedValue` annotations are used to specify the primary key and its generation strategy.
-- `@Column` annotations are used to specify the _details of each column_ as they are in our database.
+- `@Table` annotation specifies the name of the table matching the database.
+- `@Id` and `@GeneratedValue` annotations to specify the primary key and AI.
+- `@Column` annotations to specify the _details of each column_ matching our database.
 - `@OneToMany` annotations specify the relationship to their respective foreign keys.
   - These annotations can vary depending on their hierarchy and type of relationship.
 - `@Temporal` annotation is used with Date fields to specify the SQL date type.
@@ -113,21 +93,19 @@ Note the following:
 
 // imports
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idUser")
-  private Long id;
+  @Column(name = "user_id")
+  private int id;
 
-  @Column(name = "username", nullable = false, length = 50, unique = true)
+  @Column(name = "username", nullable = false, length = 45, unique = true)
   private String username;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user")
   private Set<Order> orders = new HashSet<>();
 
-  // Default constructor
   public User() {}
 
   // Constructor with parameters
@@ -152,8 +130,10 @@ public class User {
 
 ```
 
-- There's a `one-to-many` relationship between `User` and `Order`, indicating that a user can have multiple orders.
-- The `@OneToMany` relationship is managed with the `mappedBy` attribute, which points to the user field in the `Order` entity.
+- There's a `one-to-many` relationship between `User` and `Order`
+  - This idicates that a user can have multiple orders.
+- The `@OneToMany` relationship is managed with the `mappedBy` attribute.
+  - This points to the user field in the `Order` entity.
 
 ### Order
 
@@ -161,24 +141,21 @@ public class User {
 // imports
 
 @Entity
-@Table(name = "Order")
+@Table(name = "orders")
 public class Order {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idOrder")
-  private Long id;
+  @Column(name = "order_id")
+  private int id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "User_idUser", nullable = false)
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<OrderDetails> orderDetails = new HashSet<>();
+  @OneToMany(mappedBy = "order")
+  private Set<OrderDetails> orderDetail;
 
-  // Default constructor
   public Order() {}
-
   // Constructor with user parameter
   public Order(Long id, User user, Set<OrderDetails> OrderDetails) {
     super();
@@ -204,47 +181,42 @@ public class Order {
 
 ```
 
-- Each `Order` is related to a `User`, established by a many-to-one relationship `(@ManyToOne)`.
-- The `Order` entity also has a one-to-many relationship with `OrderDetails`, which is a join table containing the many-to-many relationship between `Order` and Book `entities` with an additional quantity field.
-- A **constructor** that accepts a `User` is also provided, which is useful when creating a new `Order` linked to an existing `User`.
+- Each `Order` is related to a `User`
+  - Established by a many-to-one relationship `(@ManyToOne)`.
+- The `Order` entity also has a one-to-many relationship with `OrderDetails`.
+  - This is a pivot fixing the many-to-many relationship between `Order` and `Book`.
+- A **constructor** that accepts a `User` is also provided
+  - Which is useful when creating a new `Order` linked to an existing `User`.
 
 ### Order details
 
-This entity will be ajusted to include a composite primary key. This will simplify the implementation of a `@ManyToMany` relationship as well as custom attributes (quantity).
+This entity can be adjusted to include a composite primary key.
+It can simplify the logic of a `@ManyToMany` relationship
+as well as handling custom attributes (quantity).
 
 ```java
 // imports
 
 @Entity
-@Table(name = "OrderDetails")
+@Table(name = "order_details")
 public class OrderDetails {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name="order_detail_id")
+  private int id;
 
-  @EmbeddedId
-  private OrderBookId id;
-
-  @ManyToOne(fetch = FetchType.LAZY)
- // @MapsId("orderId")
-  @JoinColumn(name = "Order_idOrder")
+  @ManyToOne
+  @JoinColumn(name = "order_id")
   private Order order;
 
-  @ManyToOne(fetch = FetchType.LAZY)
- // @MapsId("bookId")
-  @JoinColumn(name = "Book_idBook")
+  @ManyToOne
+  @JoinColumn(name = "book_id")
   private Book book;
 
-  @Column(name = "quantity")
+  @Column(name = "quantity", nullable = false)
   private int quantity;
 
-  public OrderDetails() {
-    // Default constructor
-  }
-
-  public OrderDetails(OrderBookId id, Order order, Book book, int quantity) {
-    this.id = id;
-    this.order = order;
-    this.book = book;
-    this.quantity = quantity;
-  }
+  public OrderDetails() {}
 
   // Getters and setters
 
@@ -274,7 +246,6 @@ public class OrderDetails {
 
   // Other methods...
 }
-
 ```
 
 A `composite` key implementation is more of an opinion instead of a good practice.
@@ -282,22 +253,21 @@ You can add it through the code above if necessary, else, keep it simple.
 
 ## Repositories
 
-The next step is to setup our `BookRepository` so the model can work with `JPA's` methods. Fortunately that's a quick solution and usually these files don't usually have a lot of lines of code.
+The next step is to setup our `BookRepository` so we can work with `JPA's` methods.
+Fortunately that's a quick solution and these files have few loc.
 
-Create a new `interface` called `BookRepository` inside a _package_ dedicated solely for repositories.
-
-No we'll have our `interface` `extend` `JPA's` methods and make them available for us.
+Create a new `interface` called `BookRepository`
+inside a _package_ dedicated solely for repositories.
+Now we'll have our `interface` extend `JPA` methods making them available for us.
 
 ### BookRepository
 
 ```java
-// imports
-
-// This annotation is a marker to indicate that the interface is a repository and a component of the Spring context.
+// This marker is used to indicate that the interface is a repository
+// and a component of the Spring context.
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
   // No need to define findById(Long id) as it's already provided.
-
   // Example custom query method
   Optional<Book> findBookByIsbn(String isbn);
 
@@ -305,9 +275,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 }
 ```
 
-- Repository Interface: By extending JpaRepository, BookRepository not only inherits methods for basic CRUD operations but also paging and sorting capabilities. The generic parameters `<Book, Long>` indicate that the repository is for the entity Book and the type of its primary key is Long.
-
-You'll need to make a Repository for all entities that will have any CRUD operations executed _through_ them.
-
-- We'll only write CRUD operations for `User`, `Author` and `Book` since this is a demo.
-- If you want to add `Orders` and/or `Genres` then you might want to add one for those too.
+- Repository Interface:
+  - By extending, BookRepository not only inherits methods for basic CRUD operations
+    but also paging and sorting capabilities.
+- You'll need to make a Repository for all entities with any CRUD.
+- We'll only write CRUD operations for: `User, Author and Book` since this is a demo.

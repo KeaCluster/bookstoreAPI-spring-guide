@@ -1,10 +1,6 @@
 # Part 2 - Database
 
-This section will focus solely on the design, requirements, attributes, relationships and normalization of the database to be implemented with our `API`
-
-## Table of Contents
-
-<!-- toc -->
+<!--toc:start-->
 
 - [Design](#design)
   - [Entities and Relationships](#entities-and-relationships)
@@ -12,8 +8,11 @@ This section will focus solely on the design, requirements, attributes, relation
 - [ER Diagram](#er-diagram)
 - [Normalization](#normalization)
 - [SQL Scripts](#sql-scripts)
+<!--toc:end-->
 
-<!-- tocstop -->
+This section will focus on:
+
+- Design, requirements, attributes, relationships and normalization of the db.
 
 ## Design
 
@@ -22,7 +21,7 @@ The database design for our library system revolves around three key entities:
 - `Book`, `Order` and `User` and one pivot table: `OrderDetails`.
 
 These entities encapsulate the basic/atomic details required to model our system.
-Relationships are structured to ensure data integrity and to facilitate querying and manipulation.
+Relationships are structured to ensure data integrity, querying and manipulation.
 
 According to our system's requirements, the design will be as follows:
 
@@ -33,27 +32,28 @@ According to our system's requirements, the design will be as follows:
 ### Entities and Relationships
 
 - Book
-  - PK: idBook
+  - PK: book_id
   - name
   - author
     - Can be another entity but wont for simplicity
   - stock
   - price
 - User
-  - PK: idUser
+  - PK: user_id
   - username
 - Order
-  - idOrder
-  - FK: User_idUser
+  - order_id
+  - FK: user_id
 
 ### Pivot tables
 
 In addition to the previous tables,
 we'll need to implement a pivot table in order to manage _M:N_ relationshps:
 
-- OrderDetail
-  - FK: Order_idOrder
-  - FK: Book_idBook
+- Order Detail
+  - PK: order_detail_id
+  - FK: order_id
+  - FK: book_id
   - quantity
 
 ## ER Diagram

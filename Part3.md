@@ -1,11 +1,6 @@
 # Part 3 - Setting up
 
-This section is fairly straightforward.
-We'll take a look at some recommendations and basic configurations.
-
-## Table of Contents
-
-<!-- toc -->
+<!--toc:start-->
 
 - [Java Environment](#java-environment)
 - [Initializr](#initializr)
@@ -13,14 +8,16 @@ We'll take a look at some recommendations and basic configurations.
   - [Dependencies](#dependencies)
 - [How to](#how-to)
 - [Notes](#notes)
+<!--toc:end-->
 
-<!-- tocstop -->
+This section is fairly straightforward.
+We'll take a look at some recommendations and basic configurations.
 
 ## Java Environment
 
 For simplicity's sake we'll work under `Java 17` or slightly older.
 As of the time of this writing, the latest `JDK` is version `JDK 21`.
-But since what we need is compatibility and straightforwardness, we'll stick to `Java 17`.
+Since what we need is straightforwardness, we'll stick to `Java 17`.
 Make sure to have that `JDK` installed alongside your favorite java _IDE_(Eclipse).
 
 ## Initializr
@@ -59,5 +56,6 @@ We'll need three main dependencies:
 
 ## Notes
 
-Take some time to familiarize yourself with the project and its structure **before** moving on to the next section.
+Take some time to familiarize yourself with the project and its structure
+**before** moving on to the next section.
 Explore the files, do some research, and really get to know why everything is there.
