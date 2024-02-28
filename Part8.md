@@ -7,14 +7,16 @@
   - [How JWT](#how-jwt)
   - [SecurityConfig](#securityconfig)
   - [CustomUserDetailsService](#customuserdetailsservice)
-    - [AuthTokenFilter](#authtokenfilter)
-    - [JwtUtils](#jwtutils)
-    - [JwtResponse](#jwtresponse)
-    - [AuthController](#authcontroller)
-    - [Variables](#variables)
+  - [AuthTokenFilter](#authtokenfilter)
+  - [JwtUtils](#jwtutils)
+  - [JwtResponse](#jwtresponse)
+  - [AuthController](#authcontroller)
+  - [UserRegistration](#userregistration)
+  - [Variables](#variables)
 - [Postman](#postman)
-
-<!--toc:end-->
+  - [Signup](#signup)
+  - [Login](#login)
+  <!--toc:end-->
 
 ## JWT
 
@@ -150,7 +152,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 }
 ```
 
-#### AuthTokenFilter
+### AuthTokenFilter
 
 This utility class will aid in filtering users' requests through a verification procedure.
 As such, place it inside an `utils` package.
@@ -197,7 +199,7 @@ As you can see, here we implement methods from our `userDetailsService`.
 This works similarly as other services, but methods come directly from:
 .springframework.security.
 
-#### JwtUtils
+### JwtUtils
 
 We require some utility methods from Jwt.
 We already implement some of them here, but we need a couple more to make things work.
@@ -254,7 +256,7 @@ Then we have three methods.
 - `validateJwtToken`
   - Just makes sure it makes sense and is as per our APIs requirements.
 
-#### JwtResponse
+### JwtResponse
 
 The response must first be built in order to send it back to the client.
 Since this is an entity, just make a small model for this class.
@@ -267,7 +269,7 @@ public class JwtResponse {
 }
 ```
 
-#### AuthController
+### AuthController
 
 We'll handle authentication on its own controller since SOLID and stuff.
 
@@ -334,7 +336,7 @@ public class UserRegistration {
 }
 ```
 
-#### Variables
+### Variables
 
 `Jwt` requires a `secret key` for your application.
 This `secret`, alongside the `data` will create a `signature`.
@@ -372,7 +374,25 @@ so for a day of expiration the value would be: **86400000**
 
 Run the project. Save everything before you run it, then run it.
 
+### Signup
+
 With postman you should be able to make a `POST` request to the auth url:
+
+- METHOD: POST
+- URL: localhost:{PORT}/api/auth/signup
+- BODY:
+
+```json
+{
+  "username": "usernameExample",
+  "password": "PassExample"
+}
+```
+
+Now the response should be our contoller's message with a `200 OK Status`.
+And a body: `User registered`.
+
+### Login
 
 - METHOD: POST
 - URL: localhost:{PORT}/api/auth/login
@@ -385,7 +405,8 @@ With postman you should be able to make a `POST` request to the auth url:
 }
 ```
 
-And if your user is saved in the database, the returned body will be a `json` in the form of:
+And if your user is saved in the database,
+the returned body will be a `JWT` in the form of:
 
 ```json
 {
@@ -403,7 +424,7 @@ its inside the "Authorization" header attribute of the request.
 ```js
 const token = "your_jwt_token"; // Assume you've stored your token here
 
-fetch("http://localhost:8080/api/protected-endpoint", {
+fetch("http://localhost:{PORT}/api/protected-endpoint", {
   method: "GET", // or 'POST', 'PUT', 'DELETE', etc.
   headers: {
     Authorization: `Bearer ${token}`,
