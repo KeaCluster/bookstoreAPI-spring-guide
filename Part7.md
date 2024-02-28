@@ -1,13 +1,13 @@
-# Part 7 - Tests and Deployments
+# Part 7 - Tests
 
 <!--toc:start-->
 
 - [Tests](#tests)
-  - [Postman](#postman)
-    - [Books](#books)
-- [Deployment](#deployment)
 
-<!--toc:end-->
+  - [Postman](#postman)
+  - [Books](#books)
+
+  <!--toc:end-->
 
 ## Tests
 
@@ -51,7 +51,3 @@ through requests.
   - If no book with that ID exists, check the response.
 - Headers: None required for this simple example.
 - Body: None
-
-## Deployment
-
-> WIP
