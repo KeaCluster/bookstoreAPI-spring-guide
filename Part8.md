@@ -13,6 +13,7 @@
     - [AuthController](#authcontroller)
     - [Variables](#variables)
 - [Postman](#postman)
+
 <!--toc:end-->
 
 ## JWT
@@ -44,7 +45,7 @@ Really lightweight since it can be sent through URL, POST parameters or a HTTP h
 
 Add the dependency on your `build.gradle` or `pom.xml`.
 
-```java
+```properties
 dependencies {
   // this is a security spring dependency
   implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -58,10 +59,8 @@ dependencies {
 Refresh the project and start the application.
 By now you should see a small change in your console output:
 
-```json
-{
-  Using generated security password: {PASSWORD_STRING}
-}
+```sh
+"Using generated security password: {PASSWORD_STRING}"
 ```
 
 This means our security dependency is doing things properly.
