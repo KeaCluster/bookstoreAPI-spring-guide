@@ -61,6 +61,7 @@ To complete this guide we recommend the following:
   - Implementing Services and Controllers
 - [API Controllers](./Part6.md)
   - Controllers and such
+  - CORS config
 - [Tests](./Part7.md)
   - Basic Tests
   - Recommendations and information on basic deployment procedures.
