@@ -86,35 +86,30 @@ We'll add this class inside a special `security` package
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-  @Autowired
-  private UserDetailsService userDetailsService;
-
-  @Autowired
-  private AuthTokenFilter authTokenFilter;
-
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+  public AuthenticationManager authenticationManager(
+    AuthenticationConfiguration authenticationConfiguration
+  ) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  // This method is cool
-  // It will control authentication through our endpoints.
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
       .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests(authorize -> authorize
         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/**").permitAll() // optional
+        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
         .anyRequest().authenticated()
       )
       .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
   }
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
-    return authTokenFilter;
+    return new AuthTokenFilter();
   }
 
   @Bean
@@ -131,7 +126,7 @@ We need a custom `UserDetailsService` class in order to load our users details.
 This is to implement pre-configured methods to create a user as a DAO entity.
 
 ```java
-@Service
+@Component
 public class CustomUserDetailsService implements UserDetailsService {
   @Autowired
   private UserRepository userRepository;
@@ -151,6 +146,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     .disabled(false)
     .build();
   }
+
 }
 ```
 
@@ -163,24 +159,27 @@ As such, place it inside an `utils` package.
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
-  JwtUtils jwtUtils;
+  private JwtUtils jwtUtils;
 
   @Autowired
   private CustomUserDetailsService userDetailsService;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(
+    HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
+  )
   throws ServletException, IOException {
     try {
       String jwt = parseJwt(request);
-      if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+    if (jwt != null && jwtUtils.validateJwtToken(jwt))  {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication =
+        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception e) {
-      logger.error("Cannot set user authentication: {}", e);
+      logger.error("Cannot set user auth", e);
     }
     filterChain.doFilter(request, response);
   }
@@ -209,37 +208,36 @@ and validate our `JWT` in order to confirm the payload.
 ```java
 @Component
 public class JwtUtils {
-  // remember these two
-	@Value("${app.jwtSecret}")
-	private String jwtSecret;
+  @Value("${app.jwtSecret}")
+  private String jwtSecret;
 
-	@Value("${app.jwtExpirationMs}")
-	private int jwtExpirationMS;
+  @Value("${app.jwtExpirationMs}")
+  private int jwtExpirationMs;
 
-	public String generateJwtToken(Authentication authentication) {
-		String username = authentication.getName();
-		SecretKey key = Jwts.SIG.HS256.key().build();
-		return Jwts.builder().subject(username).issuedAt(new Date())
-				.expiration(new Date((new Date()).getTime() + jwtExpirationMS))
-				.signWith(key).compact();
-	}
+  public String generateJwtToken(Authentication authentication) {
+    String username = authentication.getName();
+    SecretKey key = Jwts.SIG.HS256.key().build();
+    return Jwts.builder().subject(username).issuedAt(new Date())
+    .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+    .signWith(key).compact();
+  }
 
-	@Deprecated
-	public String getUserNameFromJwtToken(String token) {
-		Claims claims = Jwts.parser().setSigningKey(token).build().parseClaimsJws(token).getBody();
-		return claims.getSubject();
-	}
+  @Deprecated
+  public String getUserNameFromJwtToken(String token) {
+    Claims claims = Jwts.parser().setSigningKey(token).build().parseClaimsJws(token).getBody();
+    return claims.getSubject();
+  }
 
-	@Deprecated
-	public boolean validateJwtToken(String authToken) {
-		try {
-			Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
-			return true;
-		} catch (Exception e) {
-			// errs
-		}
-		return false;
-	}
+  @Deprecated
+  public boolean validateJwtToken(String authToken) {
+    try {
+      Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
+      return true;
+    } catch(Exception e) {
+
+    }
+    return false;
+  }
 }
 ```
 
@@ -277,27 +275,64 @@ We'll handle authentication on its own controller since SOLID and stuff.
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	@Autowired
-	AuthenticationManager authenticationManager;
+  // These references are implemented inside /signup
+  @Autowired
+  private UserRepository userRepository;
 
-	@Autowired
-	JwtUtils jwtUtils;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(@RequestParam("username") String username, @RequestParam("password") String password) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+  @Autowired
+  private JwtUtils jwtUtils;
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+  @PostMapping("/login")
+  public ResponseEntity<?> authenticateUser(
+    @RequestParam("username") String username,
+    @RequestParam("password") String password
+  ) {
+    Authentication authentication = authenticationManager.authenticate(
+      new UsernamePasswordAuthenticationToken(username, password)
+    );
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generateJwtToken(authentication);
+
+    return ResponseEntity.ok(new JwtResponse(jwt));
+  }
+
+  @PostMapping("/signup")
+  public ResponseEntity<?> registerUser(
+    @RequestBody UserRegistration userRegistration
+    ) {
+    // Add this existsByUsername method into your userRepository
+    if(userRepository.existsByUsername(userRegistration.getUsername())) {
+      return ResponseEntity
+      .badRequest()
+    .body("Error: Username already taken");
     }
+    User user = new User(userRegistration.getUsername(), passwordEncoder.encode(userRegistration.getPassword()));
+    userRepository.save(user);
+    return ResponseEntity.ok("User registered");
+  }
 }
 ```
 
-This endpoint will handle our authentication process when the user logs in.
-For logout, you should/could handle it here as well since it falls within the same context.
+This endpoint will handle our process when the user logs in and/or signs up
+For logout, you should/could handle it here as well since it falls within the context.
+
+### UserRegistration
+
+We'll add a `UserRegistationDTO` for our signup procedure.
+Don't forget constructors/getters and setters.
+
+```java
+public class UserRegistration {
+  private String username;
+  private String password;
+}
+```
 
 #### Variables
 
