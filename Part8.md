@@ -58,7 +58,7 @@ The default user is `user`.
 Check [this article](https://www.toptal.com/spring/spring-security-tutorial)
 for more info.
 
-### Security class
+### SecurityConfig
 
 We need a class to handle security in our application.
 In it we'll give it context to a new `UserDetailsService` class and an `AuthTokenFilter`
@@ -241,3 +241,46 @@ Then we have three methods.
   - From the signed token, it handles the username.
 - `validateJwtToken`
   - Just makes sure it makes sense and is as per our APIs requirements.
+
+#### JwtResponse
+
+The response must first be built in order to send it back to the client.
+Since this is an entity, just make a small model for this class.
+Don't forget getters, setters and constructors.
+
+```java
+public class JwtResponse {
+  private String token;
+  private String type = "Bearer";
+}
+```
+
+#### AuthController
+
+We'll handle authentication on its own controller since SOLID and stuff.
+
+```java
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+	@Autowired
+	AuthenticationManager authenticationManager;
+
+	@Autowired
+	JwtUtils jwtUtils;
+
+	@PostMapping("/login")
+	public ResponseEntity<?> authenticateUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        return ResponseEntity.ok(new JwtResponse(jwt));
+    }
+}
+```
+
+This endpoint will handle our authentication process when the user logs in.
+For logout, you should/could handle it here as well since it falls within the same context.
