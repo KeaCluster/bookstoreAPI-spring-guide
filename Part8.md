@@ -1,5 +1,20 @@
 # Part 8 - JWT
 
+<!--toc:start-->
+
+- [JWT](#jwt)
+  - [What JWT](#what-jwt)
+  - [How JWT](#how-jwt)
+  - [SecurityConfig](#securityconfig)
+  - [CustomUserDetailsService](#customuserdetailsservice)
+    - [AuthTokenFilter](#authtokenfilter)
+    - [JwtUtils](#jwtutils)
+    - [JwtResponse](#jwtresponse)
+    - [AuthController](#authcontroller)
+    - [Variables](#variables)
+- [Postman](#postman)
+<!--toc:end-->
+
 ## JWT
 
 This is entirely optional, but it doesn't take that long.
@@ -284,3 +299,86 @@ public class AuthController {
 
 This endpoint will handle our authentication process when the user logs in.
 For logout, you should/could handle it here as well since it falls within the same context.
+
+#### Variables
+
+`Jwt` requires a `secret key` for your application.
+This `secret`, alongside the `data` will create a `signature`.
+This `signature`, plus the `payload` and `header` make a `JWT`.
+
+Or at least that's what I understood.
+
+Anyway, what we want is a `signed JWT`.
+With this, and only with this, can we make sure the request hasn't been corrupted
+or altered in any way.
+
+For simplicity's sake, our `secret` will be inside `application.properties`.
+
+Go to any online resource and create a secret key with base 64 (recommended).
+
+You can also make it inside your terminal with:
+
+```sh
+openssl rand -base64 64
+```
+
+It should look something like a big a$$ string.
+
+Paste it inside `application.properties` like so:
+
+```xml
+app.jwtSecret={SECRET_HERE}
+app.jwtExpirationMs={EXPIRATION_IN_MS_HERE}
+```
+
+Take note the expiration for the JWT is in milliseconds,
+so for a day of expiration the value would be: **86400000**
+
+## Postman
+
+Run the project. Save everything before you run it, then run it.
+
+With postman you should be able to make a `POST` request to the auth url:
+
+- METHOD: POST
+- URL: localhost:{PORT}/api/auth/login
+- BODY:
+
+```json
+{
+  "username": "username",
+  "password": "password"
+}
+```
+
+And if your user is saved in the database, the returned body will be a `json` in the form of:
+
+```json
+{
+  "token": "${BIG_String_Here}",
+  "type": "Bearer"
+}
+```
+
+And that's it for JWT. You've now authenticated a payload.
+
+Store this `token` somewhere safe for the client to use (but actually no).
+When the user makes a request to any other url make sure
+its inside the "Authorization" header attribute of the request.
+
+```js
+const token = "your_jwt_token"; // Assume you've stored your token here
+
+fetch("http://localhost:8080/api/protected-endpoint", {
+  method: "GET", // or 'POST', 'PUT', 'DELETE', etc.
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+})
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+GLHF;
