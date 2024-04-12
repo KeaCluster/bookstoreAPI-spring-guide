@@ -1,13 +1,15 @@
-# Part 2 - Database
+# Part 2 Database
 
 <!--toc:start-->
 
-- [Design](#design)
-  - [Entities and Relationships](#entities-and-relationships)
-  - [Pivot tables](#pivot-tables)
-- [ER Diagram](#er-diagram)
-- [Normalization](#normalization)
-- [SQL Scripts](#sql-scripts)
+- [Part 2 Database](#part-2-database)
+  - [Design](#design)
+    - [Entities and Relationships](#entities-and-relationships)
+    - [Pivot tables](#pivot-tables)
+  - [ER Diagram](#er-diagram)
+  - [Normalization](#normalization)
+  - [SQL Scripts](#sql-scripts)
+
 <!--toc:end-->
 
 This section will focus on:

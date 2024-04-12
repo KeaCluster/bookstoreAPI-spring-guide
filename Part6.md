@@ -1,12 +1,13 @@
-# Part 6 - Writing Controllers
+# Part 6 Writing Controllers
 
 <!--toc:start-->
 
-- [Book Controller](#book-controller)
-  - [ResponseEntity](#responseentity)
-- [CORS](#cors)
-  - [How to CORS](#how-to-cors)
-- [Notes](#notes)
+- [Part 6 Writing Controllers](#part-6-writing-controllers)
+  - [Book Controller](#book-controller)
+    - [ResponseEntity](#responseentity)
+  - [CORS](#cors)
+    - [How to CORS](#how-to-cors)
+  - [Notes](#notes)
 
 <!--toc:end-->
 

@@ -2,13 +2,16 @@
 
 <!--toc:start-->
 
-- [API](#api)
-  - [Definition](#definition)
-- [REST](#rest)
-  - [RESTful](#restful)
-- [Design Patterns](#design-patterns)
-  - [MVC](#mvc)
-- [Persistence](#persistence) - [Persistence API](#persistence-api) - [Why JPA](#why-jpa)
+- [Part 0 - Introduction](#part-0-introduction)
+  - [API](#api)
+    - [Definition](#definition)
+  - [REST](#rest)
+    - [RESTful](#restful)
+  - [Design Patterns](#design-patterns)
+    - [MVC](#mvc)
+  - [Persistence](#persistence)
+    - [Persistence API](#persistence-api)
+    - [Why JPA](#why-jpa)
 
 <!--toc:end-->
 

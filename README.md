@@ -2,12 +2,13 @@
 
 <!--toc:start-->
 
-- [Intro](#intro)
-  - [Prerequisites](#prerequisites)
-  - [Stack](#stack)
-- [Contents](#contents)
-- [Details](#details)
-- [License](#license)
+- [Springboot Bookstore API guide](#springboot-bookstore-api-guide)
+  - [Intro](#intro)
+    - [Prerequisites](#prerequisites)
+    - [Stack](#stack)
+  - [Contents](#contents)
+  - [Details](#details)
+  - [License](#license)
 
 <!--toc:end-->
 

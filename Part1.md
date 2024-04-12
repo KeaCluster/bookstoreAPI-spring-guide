@@ -1,20 +1,19 @@
-# Part 1 - Requirements
+# Part 1 Requirements
+
+<!--toc:start-->
+
+- [Part 1 Requirements](#part-1-requirements)
+  - [Understanding the system](#understanding-the-system)
+    - [Basics](#basics)
+    - [Entities and relationships](#entities-and-relationships)
+  - [Documenting functionality](#documenting-functionality)
+  - [Planning](#planning)
+    - [Stages](#stages)
+  - [Overall Description](#overall-description)
+
+<!--toc:end-->
 
 In this section, we'll delve into understanding the basic requirements for our bookshop system. This will range from its basic functionality, to the database and an overall description of the system to better understand its purpose and requirements.
-
-## Table of Contents
-
-<!-- toc -->
-
-- [Understanding the system](#understanding-the-system)
-  - [Basics](#basics)
-  - [Entities and relationships](#entities-and-relationships)
-- [Documenting functionality](#documenting-functionality)
-- [Planning](#planning)
-  - [Stages](#stages)
-- [Overall Description](#overall-description)
-
-<!-- tocstop -->
 
 ## Understanding the system
 

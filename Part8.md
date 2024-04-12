@@ -1,22 +1,24 @@
-# Part 8 - JWT
+# Part 8 JWT
 
 <!--toc:start-->
 
-- [JWT](#jwt)
-  - [What JWT](#what-jwt)
-  - [How JWT](#how-jwt)
-  - [SecurityConfig](#securityconfig)
-  - [CustomUserDetailsService](#customuserdetailsservice)
-  - [AuthTokenFilter](#authtokenfilter)
-  - [JwtUtils](#jwtutils)
-  - [JwtResponse](#jwtresponse)
-  - [AuthController](#authcontroller)
-  - [UserRegistration](#userregistration)
-  - [Variables](#variables)
-- [Postman](#postman)
-  - [Signup](#signup)
-  - [Login](#login)
-  <!--toc:end-->
+- [Part 8 JWT](#part-8-jwt)
+  - [JWT](#jwt)
+    - [What JWT](#what-jwt)
+    - [How JWT](#how-jwt)
+    - [SecurityConfig](#securityconfig)
+    - [CustomUserDetailsService](#customuserdetailsservice)
+    - [AuthTokenFilter](#authtokenfilter)
+    - [JwtUtils](#jwtutils)
+    - [JwtResponse](#jwtresponse)
+    - [AuthController](#authcontroller)
+    - [UserRegistration](#userregistration)
+    - [Variables](#variables)
+  - [Postman](#postman)
+    - [Signup](#signup)
+    - [Login](#login)
+
+<!--toc:end-->
 
 ## JWT
 

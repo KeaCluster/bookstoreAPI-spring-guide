@@ -1,13 +1,15 @@
-# Part 3 - Setting up
+# Part 3 Setting up
 
 <!--toc:start-->
 
-- [Java Environment](#java-environment)
-- [Initializr](#initializr)
-  - [Framework](#framework)
-  - [Dependencies](#dependencies)
-- [How to](#how-to)
-- [Notes](#notes)
+- [Part 3 Setting up](#part-3-setting-up)
+  - [Java Environment](#java-environment)
+  - [Initializr](#initializr)
+    - [Framework](#framework)
+    - [Dependencies](#dependencies)
+  - [How to](#how-to)
+  - [Notes](#notes)
+
 <!--toc:end-->
 
 This section is fairly straightforward.

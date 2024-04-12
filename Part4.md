@@ -1,14 +1,15 @@
-# Part 4 - API Development
+# Part 4 API Development
 
 <!--toc:start-->
 
-- [Models](#models)
-- [Book](#book)
-- [User](#user)
-- [Order](#order)
-- [Order details](#order-details)
-- [Repositories](#repositories)
-  - [BookRepository](#bookrepository)
+- [Part 4 API Development](#part-4-api-development)
+  - [Models](#models)
+    - [Book](#book)
+    - [User](#user)
+    - [Order](#order)
+    - [Order details](#order-details)
+  - [Repositories](#repositories)
+    - [BookRepository](#bookrepository)
 
 <!--toc:end-->
 

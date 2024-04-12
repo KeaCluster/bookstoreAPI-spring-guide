@@ -1,12 +1,13 @@
-# Part 5 - Services
+# Part 5 Services
 
 <!--toc:start-->
 
-- [Services](#services)
-  - [BookService](#bookservice)
-  - [UserService](#userservice)
-  - [OrderService](#orderservice)
-- [Notes](#notes)
+- [Part 5 Services](#part-5-services)
+  - [Services](#services)
+    - [BookService](#bookservice)
+    - [UserService](#userservice)
+    - [OrderService](#orderservice)
+  - [Notes](#notes)
 
 <!--toc:end-->
 

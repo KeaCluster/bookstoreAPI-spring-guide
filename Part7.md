@@ -1,13 +1,13 @@
-# Part 7 - Tests
+# Part 7 Tests
 
 <!--toc:start-->
 
-- [Tests](#tests)
+- [Part 7 Tests](#part-7-tests)
+  - [Tests](#tests)
+    - [Postman](#postman)
+      - [Books](#books)
 
-  - [Postman](#postman)
-  - [Books](#books)
-
-  <!--toc:end-->
+<!--toc:end-->
 
 ## Tests
 
