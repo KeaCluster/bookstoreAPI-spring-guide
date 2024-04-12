@@ -18,6 +18,7 @@ A beginner's guide to building a small REST-API using Spring Boot.
 This guide covers various aspects of software development including:
 requirements gathering, system design, development, and deployment preparations.
 
+> [!NOTE]
 > There isn't that much info to go through.
 > We won't look at any front-end aspects of development as this is not the purpose.
 > However we will dive into some basic theory about `MVC` and `REST-API` services.
@@ -31,20 +32,20 @@ Good luck on your development journey and remember to
 
 ### Prerequisites
 
-To complete this guide we recommend the following:
+To complete this guide we recommend a previous solid foundation of:
 
 - Basic principles of OOP.
-  - Best practices, data types, Classes, Abstraction, Polymorphism, and design patterns.
-- Java fundamentals.
-- MySQL and basic database knowledge.
-- Java JDK and an IDE of your preference.
+  - Best practices, data types, classes, abstraction, polymorphism, and design patterns.
+- `Java` fundamentals.
+- `MySQL` and `SQL` knowledge.
+- `Java JDK` installed and an IDE of your preference.
 
 ### Stack
 
-- Java (17+)
-- Springboot (initializr for simplicity)
-- MySQL (Relational Database)
-- MVC theory and application
+- `Java` (17.0+)
+- `Springboot` (initializr for simplicity)
+- `MySQL`
+- `MVC` theory and application
 
 ## Contents
 
@@ -73,10 +74,11 @@ To complete this guide we recommend the following:
 
 For any queries/feedback or contact, you can reach out via [Github](https://github.com/KeaCluster)
 
-- Feel free to open a PR for any corrections/suggestions
+> [!TIP]
+> Feel free to open a PR for any corrections/suggestions
 
 ## License
 
-This guide is shared under the [MIT License](./LICENSE.md)
+This guide is shared under the [MIT License](LICENSE)
 
 GLHF;
