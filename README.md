@@ -79,6 +79,6 @@ For any queries/feedback or contact, you can reach out via [Github](https://gith
 
 ## License
 
-This guide is shared under the [MIT License](LICENSE)
+This project is licensed under the Creative Commons Zero v1.0 Universal License - see the [LICENSE](LICENSE) file for details.
 
 GLHF;
