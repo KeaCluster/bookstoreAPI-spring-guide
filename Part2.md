@@ -22,13 +22,13 @@ The database design for our library system revolves around three key entities:
 
 - `Book`, `Order` and `User` and one pivot table: `OrderDetails`.
 
-These entities encapsulate the basic/atomic details required to model our system.
+These entities encapsulate the basic details required by our system.
 Relationships are structured to ensure data integrity, querying and manipulation.
 
 According to our system's requirements, the design will be as follows:
 
 - `User` can rent multiple `Books`, and `Books` can be rented by multiple `User`.
-  - This relationship will be simplified by implementing an extra entity called `Order`.
+  - This interaction will be simplified by implementing an extra entity called `Order`.
 - `Order` itself is a simple entity containing only a relationship to a _pivot table_.
 
 ### Entities and Relationships
@@ -60,8 +60,8 @@ we'll need to implement a pivot table in order to manage _M:N_ relationshps:
 
 ## ER Diagram
 
-En ER-Diagram will help us visualize the relationship between entities in our database.
-In our library system the ER-Diagram will look something similar to the following:
+The ER-Diagram will help us visualize the relationship between entities in our database.
+In our bookstore system the ER-Diagram will look something similar to the following:
 
 ![bookstoreER](./img/bookstore.png)
 
@@ -83,5 +83,6 @@ There are three main steps to Normalization:
 
 You can write (or generate) the SQL script through any tool you prefer.
 Stick to the previously mentioned relationships and attributes for better results.
+
 If you're using this as a resource, more than a guide,
-then just remember to double check your requirements.
+just remember to double check your requirements.

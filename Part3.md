@@ -17,7 +17,7 @@ We'll take a look at some recommendations and basic configurations.
 
 ## Java Environment
 
-For simplicity's sake we'll work under `Java 17` or slightly older.
+For simplicity's sake we'll work under `Java 17`.
 As of the time of this writing, the latest `JDK` is version `JDK 21`.
 Since what we need is straightforwardness, we'll stick to `Java 17`.
 Make sure to have that `JDK` installed alongside your favorite java _IDE_(Eclipse).
@@ -44,7 +44,7 @@ Feel free to adjust your project's metadata as you see fit.
 
 We'll need three main dependencies:
 
-1. `Spring Data JPA`: To have persistence in our `API`.
+1. `Spring Data JPA`: To have annotations and methods for persistence (SQL syntax).
 2. `MySQL Driver`: To connect to our database.
 3. `Spring Web`: This provides most of the REST API annotations and tools we'll use.
 
@@ -52,7 +52,7 @@ We'll need three main dependencies:
 
 1. Click on **Generate** at the bottom. It will download a `.zip` file.
 2. Extract it into your _java workspace_ and **import** it as a `Gradle` project.
-   - Please check your directory **is** the root directory and **not** a nested one.
+   - Please check your directory **is** the root directory and **not a nested one**.
 3. It should start the configuration and build right away depending on your IDE.
 4. If any errors occur, double check directory structure and retry from step _2_.
 
